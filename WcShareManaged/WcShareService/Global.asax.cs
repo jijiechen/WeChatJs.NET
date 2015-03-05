@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WcShareService.Providers;
+using WcShareService.Services;
+using WcShareService.Services.Impl;
 
 namespace WcShareService
 {
@@ -12,13 +15,32 @@ namespace WcShareService
     // 请访问 http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
     {
+        public const string ContextKey_WeChatService = "WeChat";
+        public const string ContextKey_SignatureGenerator = "SignatureGenerator";
+
+        private static IWeChatServices WeChatServiceInstance;
+
         protected void Application_Start()
         {
+            InitWeChatServices();
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Application_BeginRequest()
+        {
+            Context.Items[ContextKey_WeChatService ] = WeChatServiceInstance;
+            Context.Items[ ContextKey_SignatureGenerator ] = new SignatureGenerator();
+        }
+
+        private void InitWeChatServices()
+        {
+            var wechat = new TencentWeChat();
+            WeChatServiceInstance = new WeChatService();
+            WeChatServiceInstance.Setup(wechat, TimeSpan.FromMinutes(100) /* 微信要求缓存 120 分钟...这里仅要求缓存 100 分钟，以保证其正确性 */);
         }
     }
 }

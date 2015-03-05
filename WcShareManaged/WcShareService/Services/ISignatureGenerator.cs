@@ -1,8 +1,9 @@
 ﻿
-namespace WcShareService.Providers
+using WcShareService.Models;
+namespace WcShareService.Services
 {
     public interface ISignatureGenerator
     {
-        string GenerateSignature(string jsTicket, string url);
+        WeChatJsConfiguration GenerateWeChatJsConfigurationWithSignature(string jsTicket, string url);
     }
 }
