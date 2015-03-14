@@ -1,22 +1,23 @@
 ﻿using NUnit.Framework;
 using System;
-using WcShareService.Providers;
-using WcShareService.Services.Impl;
+using WeChatJs.Providers;
+using WeChatJs.Services.Impl;
 using Moq;
 using System.Threading;
 using System.Collections.Generic;
 
-namespace WcShareService.Tests.Providers
+namespace WeChatJs.Tests.Providers
 {
     [TestFixture]
     public class AccessTokenProviderTests
     {
-        static IWeChat wechat;
         const string testAppId = "some app id";
         const string testAppSecret = "some app id";
 
         const string testTicket = "this_is_the_ticket";
         const string testAccessToken = "access_by_this_token";
+
+        IWeChat wechat;
 
         [SetUp]
         public void MockWeChat()

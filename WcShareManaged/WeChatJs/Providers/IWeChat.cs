@@ -1,5 +1,5 @@
 ﻿
-namespace WcShareService.Providers
+namespace WeChatJs.Providers
 {
     public interface IWeChat
     {

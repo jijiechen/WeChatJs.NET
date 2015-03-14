@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace WcShareService.Utils
+namespace WeChatJs.Utils
 {
-    public static class Parameters
+    static class Parameters
     {
         public static void RequireNotEmpty(string parameterName, object @value)
         {

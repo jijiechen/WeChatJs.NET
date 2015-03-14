@@ -116,15 +116,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\WeChatJsConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\TencentWeChat.cs" />
-    <Compile Include="Services\Impl\SignatureGenerator.cs" />
-    <Compile Include="Services\Impl\WeChatService.cs" />
-    <Compile Include="Services\ISignatureGenerator.cs" />
-    <Compile Include="Services\IWeChatServices.cs" />
-    <Compile Include="Providers\IWeChat.cs" />
-    <Compile Include="Utils\Parameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -145,6 +137,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WeChatJs\WeChatJs.csproj">
+      <Project>{efaeed09-f865-475c-8955-2f7c4541d54d}</Project>
+      <Name>WeChatJs</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

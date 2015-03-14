@@ -7,9 +7,9 @@
     <ProjectGuid>{081C54AE-C56A-4209-8658-2D8F19A1FE40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WcShareService.Tests</RootNamespace>
-    <AssemblyName>WcShareService.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>WeChatJs.Tests</RootNamespace>
+    <AssemblyName>WeChatJs.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\WeChatServicesTests.cs" />
+    <Compile Include="WorkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -58,9 +60,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WcShareService\WcShareService.csproj">
-      <Project>{34890d09-f489-4ffe-9120-9569aacc17f2}</Project>
-      <Name>WcShareService</Name>
+    <ProjectReference Include="..\WeChatJs\WeChatJs.csproj">
+      <Project>{efaeed09-f865-475c-8955-2f7c4541d54d}</Project>
+      <Name>WeChatJs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

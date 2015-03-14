@@ -1,7 +1,7 @@
 ﻿using System;
-using WcShareService.Providers;
+using WeChatJs.Providers;
 
-namespace WcShareService.Services
+namespace WeChatJs.Services
 {
     public interface IWeChatServices
     {

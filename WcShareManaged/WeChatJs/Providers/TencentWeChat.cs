@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 
-namespace WcShareService.Providers
+namespace WeChatJs.Providers
 {
     public class TencentWeChat:IWeChat
     {

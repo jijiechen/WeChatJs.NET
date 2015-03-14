@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using WcShareService.Providers;
-using WcShareService.Utils;
+using WeChatJs.Providers;
+using WeChatJs.Utils;
 
-namespace WcShareService.Services.Impl
+namespace WeChatJs.Services.Impl
 {
     public class WeChatService: IWeChatServices
     {

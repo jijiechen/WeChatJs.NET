@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using WcShareService.Providers;
-using WcShareService.Services;
-using WcShareService.Services.Impl;
+using WeChatJs.Providers;
+using WeChatJs.Services;
+using WeChatJs.Services.Impl;
 
 namespace WcShareService
 {
@@ -15,9 +15,6 @@ namespace WcShareService
     // 请访问 http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
     {
-        public const string ContextKey_WeChatService = "WeChat";
-        public const string ContextKey_SignatureGenerator = "SignatureGenerator";
-
         private static IWeChatServices WeChatServiceInstance;
 
         protected void Application_Start()
@@ -32,8 +29,8 @@ namespace WcShareService
 
         protected void Application_BeginRequest()
         {
-            Context.Items[ContextKey_WeChatService ] = WeChatServiceInstance;
-            Context.Items[ ContextKey_SignatureGenerator ] = new SignatureGenerator();
+            Context.Items[ WeChatJs.Worker.ContextKey_WeChatService ] = WeChatServiceInstance;
+            Context.Items[ WeChatJs.Worker.ContextKey_SignatureGenerator ] = new SignatureGenerator();
         }
 
         private void InitWeChatServices()

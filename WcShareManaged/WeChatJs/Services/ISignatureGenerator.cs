@@ -1,6 +1,5 @@
 ﻿
-using WcShareService.Models;
-namespace WcShareService.Services
+namespace WeChatJs.Services
 {
     public interface ISignatureGenerator
     {
