@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcShareService", "WcShareService\WcShareService.csproj", "{34890D09-F489-4FFE-9120-9569AACC17F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs.SaasDemo", "WeChatJs.SaasDemo\WeChatJs.SaasDemo.csproj", "{34890D09-F489-4FFE-9120-9569AACC17F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs.Tests", "WcShareService.Tests\WeChatJs.Tests.csproj", "{081C54AE-C56A-4209-8658-2D8F19A1FE40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs.Tests", "WeChatJs.Tests\WeChatJs.Tests.csproj", "{081C54AE-C56A-4209-8658-2D8F19A1FE40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs", "WeChatJs\WeChatJs.csproj", "{EFAEED09-F865-475C-8955-2F7C4541D54D}"
 EndProject

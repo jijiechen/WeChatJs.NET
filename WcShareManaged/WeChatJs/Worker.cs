@@ -30,8 +30,13 @@ namespace WeChatJs
             var accessToken = wechat.GetAccessToken(appId, appSecret);
             var ticket = wechat.GetTicket(accessToken);
 
+            var actualUrl = StripUrl(url);
             var signatureGenerator = GetSignatureGenerator();
-            var jsConfig = signatureGenerator.GenerateWeChatJsConfigurationWithSignature(ticket, StripUrl(url));
+            var jsConfig = signatureGenerator.GenerateWeChatJsConfigurationWithSignature(ticket, actualUrl);
+            if (string.IsNullOrWhiteSpace(jsConfig.Url))
+            {
+                jsConfig.Url = actualUrl;
+            }
             jsConfig.AppId = appId;
 
             return jsConfig;
@@ -64,19 +69,14 @@ namespace WeChatJs
         private static string BuildSignatureScriptContent(WeChatJsConfiguration jsConfig)
         {
             const string script = @"; function configWeixinJs ( cfg, dontSetupWeixin ){{
-    cfg = cfg || {};
-
-    cfg.appId = '{0}';
-    cfg.timestamp = {1};
-	cfg.nonceStr = '{2}';
-	cfg.signature = '{3}';
-    cfg.debug = {4};
+    cfg = cfg || {{}};
+    cfg.appId = '{0}'; cfg.timestamp = {1}; cfg.nonceStr = '{2}'; cfg.signature = '{3}'; cfg.debug = {4};
 
 	if(!cfg.jsApiList || !cfg.jsApiList.length) {{
         cfg.jsApiList = [ 'checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo' ];
     }}
     
-    if(jWeixin && !dontSetupWeixin) {{
+    if( window.jWeixin && !dontSetupWeixin) {{
         jWeixin.config( cfg ); 
         if( window.weixinShareData ){{
 	        jWeixin.ready ( function () {{
@@ -85,6 +85,8 @@ namespace WeChatJs
 		        jWeixin.onMenuShareQQ(weixinShareData);
 	        }});
         }}
+    }}else if( !window.jWeixin && window.console ){{
+        console.log( 'WeChatJs: please put this WeChatJs script after WeChat\'s official sdk script.' );
     }}
 
     return cfg;

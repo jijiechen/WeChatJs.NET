@@ -9,5 +9,6 @@ namespace WeChatJs
         public long Timestamp { get; set; }
         public string NonceString { get; set; }
         public string Signature { get; set; }
+        public string Url { get; set; }
     }
 }
