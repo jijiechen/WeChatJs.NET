@@ -1,8 +1,7 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using WeChatJs;
+﻿using System;
 using System.Linq;
-using System;
+using System.Web.Mvc;
+using WeChatJs.SaasDemo.DataStore;
 
 namespace WeChatJs.SaasDemo.Controllers
 {
@@ -13,27 +12,32 @@ namespace WeChatJs.SaasDemo.Controllers
         //
         // GET: /WeChatSignature/
 
-        public ActionResult Index(string appId, string url, string debug)
+        public ActionResult Index(string appId, string url, string debug, bool donotSetup)
         {
             if(string.IsNullOrEmpty(appId) || string.IsNullOrEmpty(url)){
                 return HttpNotFound();
             }
 
-            var all = DataStore.FromConfiguration.Credentials;
+            var all = FromConfiguration.Credentials;
             var credential = all.FirstOrDefault(c => c.AppId == appId);
             if (credential == null)
             {
                 return HttpNotFound();
             }
 
-            return CreateResponseResult(credential, url, !string.IsNullOrWhiteSpace(debug));
+            var debugMode = !string.IsNullOrWhiteSpace(debug) && !debug.Equals("false", StringComparison.OrdinalIgnoreCase);
+            return CreateResponseResult(credential, url, debugMode, donotSetup);
         }
 
-        private ActionResult CreateResponseResult(DataStore.WeChatCredential credential, string url, bool debug)
+        private ActionResult CreateResponseResult(WeChatCredential credential, string url, bool debug, bool donotSetup)
         {
             try
             {
-                var script = WeChatJs.Worker.GenerateBridgeScriptWithSignature(credential.AppId, credential.AppSecret, url, debug);
+                var config = Worker.Sign(credential.AppId, credential.AppSecret, url);
+                config.DebugMode = debug;
+                config.DontSetupWeChatOnGeneratingScript = donotSetup;
+
+                var script = Worker.BuildSignatureScriptContent(config);
                 return Content(script, JavaScriptMimeType);
             }
             catch (ArgumentException ex)
@@ -57,7 +61,7 @@ namespace WeChatJs.SaasDemo.Controllers
 #if DEBUG
         public ActionResult Test(string appId, string appSecret, string url)
         {
-            return Content(WeChatJs.Worker.GenerateBridgeScriptWithSignature(appId, appSecret, url, true), JavaScriptMimeType);
+            return Content(Worker.GenerateBridgeScriptWithSignature(appId, appSecret, url, true), JavaScriptMimeType);
         }
 #endif
 

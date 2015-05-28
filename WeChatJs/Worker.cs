@@ -43,14 +43,13 @@ namespace WeChatJs
         }
 
         private static string StripUrl(string url) {
-            if (HttpContext.Current == null)
-            {
-                Parameters.RequireNotEmpty("url", HttpContext.Current);
-            }
-
             Uri actualUri;
             if (string.IsNullOrWhiteSpace(url))
             {
+                if (HttpContext.Current == null)
+                {
+                    Parameters.RequireNotEmpty("url", HttpContext.Current);
+                }
                 return HttpContext.Current.Request.Url.ToString();
             }
             else if (Uri.TryCreate(url, UriKind.Absolute, out actualUri))
@@ -66,7 +65,7 @@ namespace WeChatJs
             throw new ArgumentException("Invalid url", "url");
         }
 
-        private static string BuildSignatureScriptContent(WeChatJsConfiguration jsConfig)
+        public static string BuildSignatureScriptContent(WeChatJsConfiguration jsConfig)
         {
             const string script = @"; function configWeixinJs ( cfg, dontSetupWeixin ){{
     cfg = cfg || {{}};
