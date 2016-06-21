@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>WeChatJs.NET</id>
+    <version>$version$</version>
+    <title>WeChatJs SDK</title>
+    <authors>Jijie Chen</authors>
+    <owners>Jijie Chen</owners>
+    <licenseUrl>http://mit-license.org/</licenseUrl>
+    <projectUrl>https://github.com/ciznx/WeChatJs.NET</projectUrl>
+    <iconUrl>https://www.nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>WeChatJs SDK Signature</description>
+    <releaseNotes>实现了微信 JavaScript SDK 的签名，亦可帮助生成签名所需的 JavaScript 脚本</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>WeChat 微信</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="(3.5.8, )" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\WeChatJs.dll" target="lib\net40" />
+    <file src="bin\Release\WeChatJs.pdb" target="lib\net40" />
+  </files>
+</package>
