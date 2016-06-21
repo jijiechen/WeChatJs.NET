@@ -134,7 +134,11 @@ namespace WeChatJs
                 wechat = httpContext.Items[ContextKey_WeChatService] as IWeChatServices;
             }
 #endif
-            wechat = TryGetService<IWeChatServices>(services);
+            if (services != null)
+            {
+                wechat = TryGetService<IWeChatServices>(services);
+            }
+
             if (wechat == null)
             {
                 var wechatProvider = new Providers.TencentWeChat();
@@ -155,7 +159,10 @@ namespace WeChatJs
                 sigGenerator = httpContext.Items[ContextKey_SignatureGenerator] as ISignatureGenerator;
             }
 #endif
-            sigGenerator = TryGetService<ISignatureGenerator>(services);
+            if (services != null)
+            {
+                sigGenerator = TryGetService<ISignatureGenerator>(services);
+            }
 
             if (sigGenerator == null)
             {
