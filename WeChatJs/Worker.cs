@@ -1,6 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
+#if net40
+    using System.Web;
+#else
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Extensions;
+#endif
 using WeChatJs.Services;
 using WeChatJs.Utils;
 
@@ -15,7 +19,12 @@ namespace WeChatJs
 
         public static string GenerateBridgeScriptWithSignature(string appId, string appSecret, string url = null, bool debug = false)
         {
-            var config = Sign(appId, appSecret, url);
+            return GenerateBridgeScriptWithSignature(null, appId, appSecret, url, debug);
+        }
+
+        public static string GenerateBridgeScriptWithSignature(IServiceProvider services, string appId, string appSecret, string url = null, bool debug = false)
+        {
+            var config = Sign(services, appId, appSecret, url);
             config.DebugMode = debug;
 
             return BuildSignatureScriptContent(config);
@@ -23,15 +32,20 @@ namespace WeChatJs
 
         public static WeChatJsConfiguration Sign(string appId, string appSecret, string url = null)
         {
+            return Sign(null, appId, appSecret, url);
+        }
+
+        public static WeChatJsConfiguration Sign(IServiceProvider services, string appId, string appSecret, string url = null)
+        {
             Parameters.RequireNotEmpty("appId", appId);
             Parameters.RequireNotEmpty("appSecret", appSecret);
 
-            var wechat = GetWeChatServices();
+            var wechat = GetWeChatServices(services);
             var accessToken = wechat.GetAccessToken(appId, appSecret);
             var ticket = wechat.GetTicket(accessToken);
 
-            var actualUrl = StripUrl(url);
-            var signatureGenerator = GetSignatureGenerator();
+            var actualUrl = StripUrl(services, url);
+            var signatureGenerator = GetSignatureGenerator(services);
             var jsConfig = signatureGenerator.GenerateWeChatJsConfigurationWithSignature(ticket, actualUrl);
             if (string.IsNullOrWhiteSpace(jsConfig.Url))
             {
@@ -42,17 +56,29 @@ namespace WeChatJs
             return jsConfig;
         }
 
-        private static string StripUrl(string url) {
+        private static string StripUrl(IServiceProvider services, string url) {
             Uri actualUri;
+
+
             if (string.IsNullOrWhiteSpace(url))
             {
+#if net40
                 if (HttpContext.Current == null)
                 {
                     Parameters.RequireNotEmpty("url", HttpContext.Current);
                 }
+
                 return HttpContext.Current.Request.Url.ToString();
+#else
+                var httpContextAccessor = TryGetService<IHttpContextAccessor>(services);
+                if(httpContextAccessor != null)
+                {
+                    return UriHelper.GetDisplayUrl(httpContextAccessor.HttpContext.Request);
+                }
+#endif
             }
-            else if (Uri.TryCreate(url, UriKind.Absolute, out actualUri))
+
+            if (Uri.TryCreate(url, UriKind.Absolute, out actualUri))
             {
                 var uriBuilder = new UriBuilder(actualUri);
                 uriBuilder.Fragment = null;
@@ -99,14 +125,16 @@ namespace WeChatJs
                 jsConfig.DontSetupWeChatOnGeneratingScript.ToString().ToLower());
         }
         
-        private static IWeChatServices GetWeChatServices(){
+        private static IWeChatServices GetWeChatServices(IServiceProvider services){
             IWeChatServices wechat = null;
 
+#if net40
             var httpContext = HttpContext.Current;
             if (httpContext != null) { 
-                wechat = httpContext.Items[ ContextKey_WeChatService] as IWeChatServices;
+                wechat = httpContext.Items[ContextKey_WeChatService] as IWeChatServices;
             }
-
+#endif
+            wechat = TryGetService<IWeChatServices>(services);
             if (wechat == null)
             {
                 var wechatProvider = new Providers.TencentWeChat();
@@ -117,22 +145,29 @@ namespace WeChatJs
             return wechat;
         }
 
-        private static ISignatureGenerator GetSignatureGenerator()
+        private static ISignatureGenerator GetSignatureGenerator(IServiceProvider services)
         {
             ISignatureGenerator sigGenerator = null;
-
+#if net40
             var httpContext = HttpContext.Current;
             if (httpContext != null)
             {
                 sigGenerator = httpContext.Items[ContextKey_SignatureGenerator] as ISignatureGenerator;
             }
+#endif
+            sigGenerator = TryGetService<ISignatureGenerator>(services);
 
             if (sigGenerator == null)
             {
                 sigGenerator = new Services.Impl.SignatureGenerator();
             }
-
             return sigGenerator;
+        }
+
+        private static T TryGetService<T>(IServiceProvider services) where T: class
+        {
+            // todo: check if services.GetService could throw some kind of exceptions
+            return services == null ? null : services.GetService(typeof (T)) as T;
         }
     }
 }

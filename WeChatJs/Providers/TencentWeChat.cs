@@ -1,6 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+#if net40
 using System.Net;
+#else
+    using System.Net.Http;
+#endif
+
 
 namespace WeChatJs.Providers
 {
@@ -13,7 +18,7 @@ namespace WeChatJs.Providers
         public string ProvideAccessToken(string appId, string appSecret)
         {
             var accessTokenUrl = string.Format(AccessTokenUrlFormat, Uri.EscapeDataString(appId), Uri.EscapeDataString(appSecret));
-            var wechatResponse = new WebClient().DownloadString(accessTokenUrl);
+            string wechatResponse = DownloadFromUri(accessTokenUrl);
 
             dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(wechatResponse);
             return jsonObject.access_token.ToString();
@@ -22,10 +27,25 @@ namespace WeChatJs.Providers
         public string ProvideJsTicket(string accessToken)
         {
             var jsTicketUrl = string.Format(JsTicketUrlFormat, Uri.EscapeDataString(accessToken));
-            var wechatResponse = new WebClient().DownloadString(jsTicketUrl);
+            var wechatResponse = DownloadFromUri(jsTicketUrl);
 
             dynamic jsonObject = JsonConvert.DeserializeObject<dynamic>(wechatResponse);
             return jsonObject.ticket.ToString();
+        }
+
+
+        private static string DownloadFromUri(string accessTokenUrl)
+        {
+#if net40
+            return new WebClient().DownloadString(accessTokenUrl);
+#else
+            using (var client = new HttpClient())
+            using (var response = client.GetAsync(accessTokenUrl).Result)
+            using (var content = response.Content)
+            {
+                return content.ReadAsStringAsync().Result;
+            }
+#endif
         }
     }
 }

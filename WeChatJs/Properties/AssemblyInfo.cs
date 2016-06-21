@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // 有关程序集的常规信息通过以下
@@ -19,9 +18,10 @@ using System.Runtime.InteropServices;
 // 则将该类型上的 ComVisible 特性设置为 true。
 [assembly: ComVisible(false)]
 
+#if net40
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
 [assembly: Guid("8352ff4a-15d8-4652-9958-413e2d5b60d0")]
-
+#endif
 // 程序集的版本信息由下面四个值组成: 
 //
 //      主版本

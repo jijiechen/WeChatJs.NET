@@ -25,9 +25,9 @@ namespace WeChatJs.Services.Impl
             dataList.Sort(ParameterKeyComparison);
             var queryString = dataList.Aggregate(string.Empty, (query, item) => string.Concat(query, "&", item.Key, "=", item.Value)).TrimStart('&');
 
-            using (var sha1 = new SHA1CryptoServiceProvider())
+            using (var sha1 = SHA1.Create())
             {
-                var hashed = sha1.ComputeHash(Encoding.Default.GetBytes(queryString));
+                var hashed = sha1.ComputeHash(Encoding.GetEncoding(0).GetBytes(queryString));
                 jsConfig.Signature = HexStringFromBytes(hashed);
                 return jsConfig;
             }
