@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs.SaasDemo", "WeChatJs.SaasDemo\WeChatJs.SaasDemo.csproj", "{34890D09-F489-4FFE-9120-9569AACC17F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs.Tests", "WeChatJs.Tests\WeChatJs.Tests.csproj", "{081C54AE-C56A-4209-8658-2D8F19A1FE40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatJs", "WeChatJs\WeChatJs.csproj", "{EFAEED09-F865-475C-8955-2F7C4541D54D}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WeChatJsCore", "WeChatJs\WeChatJsCore.xproj", "{8B082522-470E-47A7-BC66-1381ED89B6B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{EFAEED09-F865-475C-8955-2F7C4541D54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFAEED09-F865-475C-8955-2F7C4541D54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFAEED09-F865-475C-8955-2F7C4541D54D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B082522-470E-47A7-BC66-1381ED89B6B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B082522-470E-47A7-BC66-1381ED89B6B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B082522-470E-47A7-BC66-1381ED89B6B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B082522-470E-47A7-BC66-1381ED89B6B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
